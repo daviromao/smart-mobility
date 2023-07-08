@@ -1,5 +1,5 @@
 import { Bus } from "@prisma/client";
-import prisma from "../prisma";
+import prisma from "../prisma/client";
 
 export async function getBusByUuid(uuid: string): Promise<Bus | null> {
   return prisma.bus.findUnique({ where: { uuid } });
