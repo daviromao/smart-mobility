@@ -4,7 +4,7 @@ import {
   turnOffAirConditioner,
 } from "../services/bus-service";
 
-import { prismaMock } from "../singleton";
+import { prismaMock } from "../prisma/singleton";
 
 describe("turnOnAirConditioner", () => {
   const busUuid = "uuid1";

@@ -7,14 +7,19 @@ import {
 
 export const resourceCallback = async (req: Request, res: Response) => {
   const { busUuid } = req.params;
-
+  const { body } = req;
   const bus = await getBusByUuid(busUuid);
 
   if (!bus) {
     return res.status(404).json({ message: "Bus not found" });
   }
 
-  const { value } = req.body;
+  // TODO: test with wrong capability and value
+  if (body.command?.capability !== "air_control") {
+    return res.status(400).json({ message: "Invalid capability" });
+  }
+
+  const { value } = body.command;
 
   if (value === "on") {
     await turnOnAirConditioner(busUuid);
