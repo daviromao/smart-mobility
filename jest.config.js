@@ -3,5 +3,5 @@ module.exports = {
   clearMocks: true,
   preset: "ts-jest",
   testEnvironment: "node",
-  setupFilesAfterEnv: ["./src/prisma/singleton.ts"],
+  setupFilesAfterEnv: ["./src/db/singleton.ts"],
 };
