@@ -10,22 +10,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum AirMode {
+  MANUAL
+  AUTOMATIC
+}
+
 model Bus {
-  id              Int      @id @unique
-  uri             String?
-  created_at      DateTime
-  updated_at      DateTime
-  lat             Float
-  lon             Float
-  status          String
+  id               Int      @id @unique
+  uri              String?
+  created_at       DateTime
+  updated_at       DateTime
+  lat              Float
+  lon              Float
+  status           String
   collect_interval Int?
-  description     String?
-  uuid            String @unique
-  city            String?
-  neighborhood    String?
-  state           String?
-  postal_code     String?
-  country         String?
-  capabilities    String[]
-  air_activated   Boolean?
+  description      String?
+  uuid             String   @unique
+  city             String?
+  neighborhood     String?
+  state            String?
+  postal_code      String?
+  country          String?
+  capabilities     String[]
+  air_activated    Boolean?
+  air_mode         AirMode  @default(AUTOMATIC)
 }
