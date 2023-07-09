@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { resourceCallback } from "./controllers/bus-controller";
+import { runSendBusInformationJob } from "./jobs/bus-information";
 
 const app = express();
 
@@ -12,5 +13,5 @@ app.get("/", (req: Request, res: Response) => {
 app.post("/resource-webhook/:busUuid", resourceCallback);
 
 app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+  runSendBusInformationJob();
 });
