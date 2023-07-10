@@ -1,10 +1,13 @@
+import { ResourceType } from "@prisma/client";
 import prisma from "../../db/client";
 import { scheduleJob } from "node-schedule";
 
 export const baseURL = "http://10.10.10.104:8000";
 
 export const sendBusInformationJob = async () => {
-  const bus = await prisma.bus.findMany();
+  const bus = await prisma.resource.findMany({
+    where: { type: ResourceType.BUS },
+  });
 
   bus.forEach(async (bus) => {
     const res = await fetch(`${baseURL}/adaptor/resources/${bus.uuid}/data`, {

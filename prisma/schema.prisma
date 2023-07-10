@@ -15,7 +15,13 @@ enum AirMode {
   AUTOMATIC
 }
 
-model Bus {
+enum ResourceType {
+  BUS
+  SUBWAY_ROOM
+  SUBWAY_TRAIN
+}
+
+model Resource {
   id               Int      @id @unique
   uri              String?
   created_at       DateTime
@@ -34,4 +40,5 @@ model Bus {
   capabilities     String[]
   air_activated    Boolean?
   air_mode         AirMode  @default(AUTOMATIC)
+  type ResourceType
 }

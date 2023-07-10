@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "actuators:dev": "nodemon --exec ts-node src/bus-actuators/app.ts",
+    "actuators:dev": "nodemon --exec ts-node src/resource-actuators/app.ts",
     "system:dev": "nodemon --exec ts-node src/system-controller/server.ts",
-    "create-mocked-bus": "npx ts-node src/bus-actuators/scripts/create_bus.ts"
+    "create-mocked-bus": "npx ts-node src/resource-actuators/scripts/create_bus.ts"
   },
   "keywords": [],
   "author": "",

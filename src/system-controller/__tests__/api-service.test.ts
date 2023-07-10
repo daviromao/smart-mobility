@@ -1,4 +1,4 @@
-import { fetchTemperatureData, sendCommandToAirConditioner } from "../services/api";
+import { fetchTemperatureData, sendCommandToAllAutomaticAirConditioners } from "../services/api";
 import { prismaMock } from "../../db/singleton";
 
 jest.mock("node-fetch");
@@ -85,12 +85,12 @@ describe("API Service Unit Tests", () => {
       },
     ];
 
-    prismaMock.bus.findMany.mockResolvedValue(mockBusActuators as any);
+    prismaMock.resource.findMany.mockResolvedValue(mockBusActuators as any);
     (fetch as jest.Mock).mockResolvedValue({});
 
-    await sendCommandToAirConditioner("on");
+    await sendCommandToAllAutomaticAirConditioners("on");
 
-    expect(prismaMock.bus.findMany).toHaveBeenCalled();
+    expect(prismaMock.resource.findMany).toHaveBeenCalled();
     expect(fetch).toHaveBeenCalledWith(mockBaseUrl + "/actuator/commands", {
       method: "POST",
       headers: {
@@ -118,12 +118,12 @@ describe("API Service Unit Tests", () => {
       },
     ];
 
-    prismaMock.bus.findMany.mockResolvedValue(mockBusActuators as any);
+    prismaMock.resource.findMany.mockResolvedValue(mockBusActuators as any);
     (fetch as jest.Mock).mockResolvedValue({});
 
-    await sendCommandToAirConditioner("on");
+    await sendCommandToAllAutomaticAirConditioners("on");
 
-    expect(prismaMock.bus.findMany).toHaveBeenCalled();
+    expect(prismaMock.resource.findMany).toHaveBeenCalled();
     expect(fetch).toHaveBeenCalledWith(mockBaseUrl + "/actuator/commands", {
       method: "POST",
       headers: {

@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
 import {
-  getBusByUuid,
+  getResourceByUuid,
   turnOnAirConditioner,
   turnOffAirConditioner,
   changeAirMode,
-} from "../services/bus-service";
+} from "../services/resource-service";
 
 export const resourceCallback = async (req: Request, res: Response) => {
-  const { busUuid } = req.params;
+  const { uuid } = req.params;
   const { body } = req;
-  const bus = await getBusByUuid(busUuid);
+  const bus = await getResourceByUuid(uuid);
 
   if (!bus) {
     return res.status(404).json({ message: "Bus not found" });
@@ -23,17 +23,17 @@ export const resourceCallback = async (req: Request, res: Response) => {
   const { value } = body.command;
 
   if (value === "on") {
-    await turnOnAirConditioner(busUuid);
+    await turnOnAirConditioner(uuid);
     return res.status(200).json({ message: "Air conditioning turned on" });
   }
 
   if (value === "off") {
-    await turnOffAirConditioner(busUuid);
+    await turnOffAirConditioner(uuid);
     return res.status(200).json({ message: "Air conditioning turned off" });
   }
 
   if (value === "change_mode") {
-    await changeAirMode(busUuid);
+    await changeAirMode(uuid);
     return res.status(200).json({ message: "Air conditioning mode changed" });
   }
 

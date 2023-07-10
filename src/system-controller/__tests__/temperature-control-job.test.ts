@@ -1,5 +1,5 @@
 import { controlAirConditioner } from "../jobs/temperature-control";
-import { sendCommandToAirConditioner, fetchTemperatureData } from "../services/api";
+import { sendCommandToAllAutomaticAirConditioners } from "../services/api";
 import { calculateAverageTemperature } from "../utils/temperature";
 
 jest.mock("../utils/temperature", () => ({
@@ -9,6 +9,14 @@ jest.mock("../utils/temperature", () => ({
 jest.mock("../services/api", () => ({
   fetchTemperatureData: jest.fn(),
   sendCommandToAirConditioner: jest.fn(),
+  sendCommandToAllAutomaticAirConditioners: jest.fn(),
+}));
+
+jest.mock("../config/consts", () => ({
+  consts: {
+    maxTemperature: 22,
+    currentTemperature: 0,
+  },
 }));
 
 describe("TemperatureControlJob", () => {
@@ -23,7 +31,7 @@ describe("TemperatureControlJob", () => {
 
     await controlAirConditioner();
 
-    expect(sendCommandToAirConditioner).toHaveBeenCalledWith("on");
+    expect(sendCommandToAllAutomaticAirConditioners).toHaveBeenCalledWith("on");
   });
 
   it("should not turn off the air conditioning when the temperature is above 22 degrees", async () => {
@@ -33,7 +41,7 @@ describe("TemperatureControlJob", () => {
 
     await controlAirConditioner();
 
-    expect(sendCommandToAirConditioner).not.toHaveBeenCalledWith("off");
+    expect(sendCommandToAllAutomaticAirConditioners).not.toHaveBeenCalledWith("off");
   });
 
   it("should turn off the air conditioning when the temperature is below or equals to 22 degrees", async () => {
@@ -43,7 +51,7 @@ describe("TemperatureControlJob", () => {
 
     await controlAirConditioner();
 
-    expect(sendCommandToAirConditioner).toHaveBeenCalledWith("off");
+    expect(sendCommandToAllAutomaticAirConditioners).toHaveBeenCalledWith("off");
   });
 
   it("should not turn on the air conditioning when the temperature is below or equals to 22 degrees", async () => {
@@ -53,6 +61,6 @@ describe("TemperatureControlJob", () => {
 
     await controlAirConditioner();
 
-    expect(sendCommandToAirConditioner).not.toHaveBeenCalledWith("on");
+    expect(sendCommandToAllAutomaticAirConditioners).not.toHaveBeenCalledWith("on");
   });
 });

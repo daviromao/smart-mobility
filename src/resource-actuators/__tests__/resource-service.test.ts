@@ -1,16 +1,15 @@
-import exp from "constants";
 import {
   turnOnAirConditioner,
   turnOffAirConditioner,
-} from "../services/bus-service";
+} from "../services/resource-service";
 
 import { prismaMock } from "../../db/singleton";
 
 describe("turnOnAirConditioner", () => {
-  const busUuid = "uuid1";
-  const bus = {
+  const uuid = "uuid1";
+  const resource = {
     id: 1,
-    uuid: busUuid,
+    uuid: uuid,
     air_activated: false,
   };
 
@@ -19,30 +18,30 @@ describe("turnOnAirConditioner", () => {
   });
 
   it("should call the prisma client with the correct turn on parameters", async () => {
-    await turnOnAirConditioner(busUuid);
+    await turnOnAirConditioner(uuid);
 
-    expect(prismaMock.bus.update).toHaveBeenCalledWith({
-      where: { uuid: busUuid },
+    expect(prismaMock.resource.update).toHaveBeenCalledWith({
+      where: { uuid: uuid },
       data: { air_activated: true },
     });
   });
 
-  it("should return the bus with the air conditioning turned on", async () => {
-    prismaMock.bus.update.mockResolvedValue({
-      ...bus,
+  it("should return the resource with the air conditioning turned on", async () => {
+    prismaMock.resource.update.mockResolvedValue({
+      ...resource,
       air_activated: true,
     } as any);
 
-    const result = await turnOnAirConditioner(busUuid);
+    const result = await turnOnAirConditioner(uuid);
     expect(result?.air_activated).toEqual(true);
   });
 });
 
 describe("turnOffAirConditioner", () => {
-  const busUuid = "uuid1";
-  const bus = {
+  const uuid = "uuid1";
+  const resource = {
     id: 1,
-    uuid: busUuid,
+    uuid: uuid,
     air_activated: true,
   };
 
@@ -51,21 +50,21 @@ describe("turnOffAirConditioner", () => {
   });
 
   it("should call the prisma client with the correct turn off parameters", async () => {
-    await turnOffAirConditioner(busUuid);
+    await turnOffAirConditioner(uuid);
 
-    expect(prismaMock.bus.update).toHaveBeenCalledWith({
-      where: { uuid: busUuid },
+    expect(prismaMock.resource.update).toHaveBeenCalledWith({
+      where: { uuid: uuid },
       data: { air_activated: false },
     });
   });
 
-  it("should return the bus with the air conditioning turned off", async () => {
-    prismaMock.bus.update.mockResolvedValue({
-      ...bus,
+  it("should return the resource with the air conditioning turned off", async () => {
+    prismaMock.resource.update.mockResolvedValue({
+      ...resource,
       air_activated: false,
     } as any);
 
-    const result = await turnOffAirConditioner(busUuid);
+    const result = await turnOffAirConditioner(uuid);
     expect(result?.air_activated).toEqual(false);
   });
 });

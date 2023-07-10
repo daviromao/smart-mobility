@@ -41,7 +41,7 @@ export async function sendCommandToAirConditioners(uuids: string[], command: str
 }
 
 export async function sendCommandToAllAutomaticAirConditioners(command: string) {
-  const busActuators = await prisma.bus.findMany({
+  const busActuators = await prisma.resource.findMany({
     where: {
       air_mode: AirMode.AUTOMATIC,
     },

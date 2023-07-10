@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+/* import { PrismaClient } from "@prisma/client";
 import * as fs from "fs";
 
 import { join } from "path";
@@ -65,4 +65,4 @@ async function main() {
   }
 }
 
-main();
+main(); */
