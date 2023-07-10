@@ -3,6 +3,7 @@ import {
   getBusByUuid,
   turnOnAirConditioner,
   turnOffAirConditioner,
+  changeAirMode,
 } from "../services/bus-service";
 
 export const resourceCallback = async (req: Request, res: Response) => {
@@ -29,6 +30,11 @@ export const resourceCallback = async (req: Request, res: Response) => {
   if (value === "off") {
     await turnOffAirConditioner(busUuid);
     return res.status(200).json({ message: "Air conditioning turned off" });
+  }
+
+  if (value === "change_mode") {
+    await changeAirMode(busUuid);
+    return res.status(200).json({ message: "Air conditioning mode changed" });
   }
 
   return res.status(400).json({ message: "Invalid value" });
