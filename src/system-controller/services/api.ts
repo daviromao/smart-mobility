@@ -19,19 +19,12 @@ export async function fetchTemperatureData(): Promise<ResourceDataResponse[]> {
   return response.resources;
 }
 
-export async function sendCommandToAirConditioner(command: string) {
+export async function sendCommandToAirConditioners(uuids: string[], command: string) {
   const baseUrl = process.env.BASE_URL;
 
-  // TODO: test with air_mode: MANUAL
-  const busActuators = await prisma.bus.findMany({
-    where: {
-      air_mode: AirMode.AUTOMATIC,
-    },
-  });
-
-  const commandData = busActuators.map((busActuator) => {
+  const commandData = uuids.map((uuid) => {
     return {
-      uuid: busActuator.uuid,
+      uuid: uuid,
       capabilities: {
         air_control: command,
       },
@@ -45,4 +38,16 @@ export async function sendCommandToAirConditioner(command: string) {
     },
     body: JSON.stringify({ data: commandData }),
   });
+}
+
+export async function sendCommandToAllAutomaticAirConditioners(command: string) {
+  const busActuators = await prisma.bus.findMany({
+    where: {
+      air_mode: AirMode.AUTOMATIC,
+    },
+  });
+
+  const uuids = busActuators.map((busActuator) => busActuator.uuid);
+
+  await sendCommandToAirConditioners(uuids, command);
 }

@@ -1,16 +1,21 @@
-import { scheduleJob } from "node-schedule";
-import { fetchTemperatureData, sendCommandToAirConditioner } from "../services/api";
+import { fetchTemperatureData, sendCommandToAllAutomaticAirConditioners } from "../services/api";
 import { calculateAverageTemperature } from "../utils/temperature";
-
-const maxTemperature = 22;
+import { scheduleJob } from "node-schedule";
+import { consts } from "../config/consts";
 
 export async function controlAirConditioner() {
   const data = await fetchTemperatureData();
   const averageTemperature = calculateAverageTemperature(data);
 
-  if (averageTemperature > maxTemperature) {
-    await sendCommandToAirConditioner("on");
+  consts.currentTemperature = averageTemperature;
+
+  if (averageTemperature > consts.maxTemperature) {
+    await sendCommandToAllAutomaticAirConditioners("on");
   } else {
-    await sendCommandToAirConditioner("off");
+    await sendCommandToAllAutomaticAirConditioners("off");
   }
 }
+
+export const runControlAirConditionerJob = () => {
+  scheduleJob("*/30 * * * * *", controlAirConditioner);
+};
