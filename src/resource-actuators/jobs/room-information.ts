@@ -21,7 +21,9 @@ export const sendRoomInformationJob = async () => {
             {
               air_activated: room.air_activated,
               air_mode: room.air_mode,
+              location: { lon: room.lon, lat: room.lat },
               date: new Date().toISOString(),
+              type: ResourceType.SUBWAY_ROOM,
             },
           ],
         },

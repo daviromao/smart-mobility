@@ -1,23 +1,21 @@
-/* import { PrismaClient } from "@prisma/client";
+import { PrismaClient, ResourceType } from "@prisma/client";
 import * as fs from "fs";
-
-import { join } from "path";
+import path from "path";
 
 const prisma = new PrismaClient();
 
-const baseUrl = "http://10.10.10.1:3000";
-
 async function main() {
-  const rawdata = fs.readFileSync(join(__dirname, "./bus.json"), "utf8");
+  const rawdata = fs.readFileSync(path.join(__dirname, "./data.json"), "utf8");
   const resources = JSON.parse(rawdata);
 
   for (const resource of resources) {
+    const { type, ...sendData } = resource;
     const response = await fetch("http://10.10.10.104:8000/adaptor/resources", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ data: resource }),
+      body: JSON.stringify({ data: sendData }),
     });
 
     const data = (await response.json()).data;
@@ -33,14 +31,14 @@ async function main() {
           subscription: {
             uuid: data.uuid,
             capabilities: data.capabilities,
-            url: `${baseUrl}/resource-webhook/${data.uuid}`,
+            url: `http://10.10.10.1:8000/resource-webhook/${data.uuid}`,
           },
         }),
       }
     );
 
     console.log(
-      await prisma.bus.create({
+      await prisma.resource.create({
         data: {
           created_at: data.created_at,
           updated_at: data.updated_at,
@@ -59,10 +57,11 @@ async function main() {
           postal_code: data.postal_code,
           state: data.state,
           uri: data.uri,
+          type: type,
         },
       })
     );
   }
 }
 
-main(); */
+main();

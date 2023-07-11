@@ -10,9 +10,17 @@ export async function controlAirConditioner() {
   consts.currentTemperature = averageTemperature;
 
   if (averageTemperature > consts.maxTemperature) {
-    await sendCommandToAllAutomaticAirConditioners("on");
+    await sendCommandToAllAutomaticAirConditioners("bus_monitoring", "on");
   } else {
-    await sendCommandToAllAutomaticAirConditioners("off");
+    await sendCommandToAllAutomaticAirConditioners("bus_monitoring", "off");
+  }
+
+  if (averageTemperature > consts.maxTemperature - 3) {
+    await sendCommandToAllAutomaticAirConditioners("train_monitoring", "on");
+    await sendCommandToAllAutomaticAirConditioners("room_monitoring", "on");
+  } else {
+    await sendCommandToAllAutomaticAirConditioners("train_monitoring", "off");
+    await sendCommandToAllAutomaticAirConditioners("room_monitoring", "off");
   }
 }
 

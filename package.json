@@ -7,7 +7,7 @@
     "test": "jest",
     "actuators:dev": "nodemon --exec ts-node src/resource-actuators/app.ts",
     "system:dev": "nodemon --exec ts-node src/system-controller/server.ts",
-    "create-mocked-bus": "npx ts-node src/resource-actuators/scripts/create_bus.ts"
+    "create-mocked-resources": "npx ts-node src/resource-actuators/scripts/setup.ts"
   },
   "keywords": [],
   "author": "",

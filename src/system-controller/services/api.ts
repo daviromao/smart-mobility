@@ -1,6 +1,7 @@
 import { ResourceDataResponse } from "../interfaces/resource-data-response";
 import prisma from "../../db/client";
 import { AirMode } from "@prisma/client";
+import { baseURL } from "../../resource-actuators/jobs/bus-information";
 
 export async function fetchTemperatureData(): Promise<ResourceDataResponse[]> {
   const baseUrl = process.env.BASE_URL;
@@ -40,14 +41,15 @@ export async function sendCommandToAirConditioners(uuids: string[], command: str
   });
 }
 
-export async function sendCommandToAllAutomaticAirConditioners(command: string) {
-  const busActuators = await prisma.resource.findMany({
-    where: {
-      air_mode: AirMode.AUTOMATIC,
-    },
-  });
+export async function sendCommandToAllAutomaticAirConditioners(
+  capability: string,
+  command: string
+) {
+  const discoveryResources = await fetch(
+    `${baseURL}/discovery/resources?capability=${capability}&air_mode.in[]=AUTOMATIC`
+  );
 
-  const uuids = busActuators.map((busActuator) => busActuator.uuid);
-
+  const response = await discoveryResources.json();
+  const uuids = response.resources.map((resource: any) => resource.uuid);
   await sendCommandToAirConditioners(uuids, command);
 }

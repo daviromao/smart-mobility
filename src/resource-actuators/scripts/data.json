@@ -1,0 +1,74 @@
+[
+  {
+    "description": "Bus 1",
+    "capabilities": ["air_control", "bus_monitoring"],
+    "status": "active",
+    "lat": -22.01481,
+    "lon": -47.891691,
+    "type": "BUS"
+  },
+  {
+    "description": "Bus 2",
+    "capabilities": ["air_control", "bus_monitoring"],
+    "status": "active",
+    "lat": -22.014146,
+    "lon": -47.891718,
+    "type": "BUS"
+  },
+  {
+    "description": "Bus 3",
+    "capabilities": ["air_control", "bus_monitoring"],
+    "status": "active",
+    "lat": -22.013237,
+    "lon": -47.891744,
+    "type": "BUS"
+  },
+  {
+    "description": "Bus 4",
+    "capabilities": ["air_control", "bus_monitoring"],
+    "status": "active",
+    "lat": -22.01214,
+    "lon": -47.891806,
+    "type": "BUS"
+  },
+  {
+    "description": "Bus 5",
+    "capabilities": ["air_control", "bus_monitoring"],
+    "status": "active",
+    "lat": -22.011106,
+    "lon": -47.891841,
+    "type": "BUS"
+  },
+  {
+    "description": "Room 1",
+    "capabilities": ["air_control", "room_monitoring"],
+    "status": "active",
+    "lat": -22.01329,
+    "lon": -47.89483,
+    "type": "SUBWAY_ROOM"
+  },
+  {
+    "description": "Room 2",
+    "capabilities": ["air_control", "room_monitoring"],
+    "status": "active",
+    "lat": -22.01329,
+    "lon": -47.888748,
+    "type": "SUBWAY_ROOM"
+  },
+  {
+    "description": "Train 1",
+    "capabilities": ["air_control", "train_monitoring"],
+    "status": "active",
+    "lat": -22.015223,
+    "lon": -47.888726,
+    "type": "SUBWAY_TRAIN"
+  },
+  {
+    "description": "Train 2",
+    "capabilities": ["air_control", "train_monitoring"],
+    "status": "active",
+    "lat": -22.011473,
+    "lon": -47.894844,
+    "type": "SUBWAY_TRAIN"
+  }
+]

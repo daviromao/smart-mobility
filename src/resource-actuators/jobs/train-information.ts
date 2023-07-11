@@ -23,6 +23,7 @@ export const sendMetroInformationJob = async () => {
               air_mode: train.air_mode,
               location: { lon: train.lon, lat: train.lat },
               date: new Date().toISOString(),
+              type: ResourceType.SUBWAY_TRAIN,
             },
           ],
         },

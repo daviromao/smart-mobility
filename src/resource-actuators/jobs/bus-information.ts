@@ -23,6 +23,7 @@ export const sendBusInformationJob = async () => {
               air_mode: bus.air_mode,
               location: { lon: bus.lon, lat: bus.lat },
               date: new Date().toISOString(),
+              type: ResourceType.BUS,
             },
           ],
         },

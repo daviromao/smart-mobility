@@ -1,5 +1,8 @@
-import { renderDispositiveInformation } from "./render-dispositive-information.js";
-import { fetchBusMonitoring } from "./interscity.js";
+import {
+  matchTypeToImage,
+  renderDispositiveInformation,
+} from "./render-dispositive-information.js";
+import { fetchResourceMonitoring, handleResourceInformation } from "./interscity.js";
 import { updateTemperatureInfo } from "./utils.js";
 
 let saoCarlos,
@@ -25,15 +28,15 @@ async function initMap() {
 
   map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(centerControlDiv);
 
-  await processBus();
+  await processResources();
   runBusMonitoring();
 }
 
-async function processBus() {
-  const busInformations = await fetchBusMonitoring();
+async function processResources() {
+  const resourcesInformations = await fetchResourceMonitoring();
 
-  for (const busInformation of busInformations) {
-    const information = busInformation.capabilities.bus_monitoring[0];
+  for (const busInformation of resourcesInformations) {
+    const information = handleResourceInformation(busInformation);
     if (markers[busInformation.uuid]) {
       const marker = markers[busInformation.uuid];
 
@@ -42,9 +45,9 @@ async function processBus() {
       );
 
       marker.setIcon({
-        url: information.air_activated
-          ? "assets/bus-air-enabled.png"
-          : "assets/bus-air-disabled.png",
+        url: `assets/${matchTypeToImage(information.type)}-air-${
+          information.air_activated ? "enabled" : "disabled"
+        }.png`,
         scaledSize: new google.maps.Size(35, 35),
       });
     } else {
@@ -52,9 +55,9 @@ async function processBus() {
         position: new google.maps.LatLng(information.location.lat, information.location.lon),
         map: map,
         icon: {
-          url: information.air_activated
-            ? "assets/bus-air-enabled.png"
-            : "assets/bus-air-disabled.png",
+          url: `assets/${matchTypeToImage(information.type)}-air-${
+            information.air_activated ? "enabled" : "disabled"
+          }.png`,
           scaledSize: new google.maps.Size(35, 35),
         },
       });
@@ -63,14 +66,14 @@ async function processBus() {
     }
   }
 
-  if (window.currentBus) {
-    renderDispositiveInformation(currentBus);
+  if (window.currentResource) {
+    renderDispositiveInformation(currentResource);
   }
 }
 
 function runBusMonitoring() {
   setInterval(async () => {
-    await processBus();
+    await processResources();
   }, 4000);
 }
 
